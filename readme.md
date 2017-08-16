@@ -4,34 +4,39 @@ Jekyll Categories
 This gem provides a [Jekyll](http://github.com/mojombo/jekyll) generator for
 category pages, category feeds and a category index.
 
-Basic Setup
------------
-Install the gem:
+# Basic Setup
 
-	[sudo] gem install jekyll-categories
+Add the gem in your Gemfile:
 
-In a plugin file within your Jekyll project's _plugins directory:
+```ruby
+group :jekyll_plugins do
+  gem 'jekyll-feed', '~> 0.6'
+  gem 'jekyll-categories'
+end
+```
 
-	# _plugins/my-plugin.rb
-	require "jekyll-categories"
+Add the plugin in the `_config.yml`:
+
+```yaml
+plugins:
+  - jekyll-feed
+  - jekyll-categories
+```
 
 Create the following layouts:
 
-- category_index.html
-- category_list.html
-- category_feed.xml
+- category_index.html (For creating an index for each category)
+- category_list.html (For creating the categories list)
+- category_feed.xml (For the [Atom feed](https://en.wikipedia.org/wiki/Atom_(standard)))
 
-Bundler Setup
--------------
-Already using bundler to manage gems for your Jekyll project?  Then just add
+# Filters
+This gem comes with the following filters.
 
-	gem "jekyll-categories"
+## category_url
+Allows you to get the url of a given category.
 
-to your gemfile and create the following plugin in your projects _plugins 
-directory.  I've called mine bundler.rb.  This will automatically require all 
-of the gems specified in your Gemfile.
-
-	# _plugins/bundler.rb
-	require "rubygems"
-	require "bundler/setup"
-	Bundler.require(:default)
+```html
+{% for category in site.categories %}
+  <li><a href="{% category_url category.first %}">{{ category.first }}</a></li>
+{% endfor %}
+```
